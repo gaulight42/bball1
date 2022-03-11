@@ -101,3 +101,34 @@ def plot_quality(df):
     p.add_tools(hover)
 
     return p
+
+def plot_quality2(df):
+    """Use matplotlib to plot team strengths
+    Keyword arguments:
+    df -- quality dataframe with columns:
+        - Team
+        - attack
+        - attacksd
+        - attack_low
+        - attack_high
+        - defend
+        - defendsd
+        - defend_low
+        - defend_high
+    """
+    plt.figure(figsize=(20,10))
+    p1 = sns.scatterplot('attack', # Horizontal axis
+                        'defend', # Vertical axis
+                         data=qDF, # Data source
+                         size = 8,
+                         legend=False)
+
+    for line in range(0,qDF.shape[0]):
+        p1.text(qDF.attack[line]+0.001, qDF.defend[line],
+        qDF.Team[line], horizontalalignment='left',
+        size='large', color='black', weight='semibold')
+
+    plt.title('Quality')
+    plt.xlabel('attack strength')
+    plt.ylabel('defend strength')
+    return p1
