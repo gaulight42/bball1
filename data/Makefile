@@ -21,7 +21,7 @@ top_plays_%.txt: season_%.tweets.jsonl
 season_%.tweets.jsonl: season_%.pbp.jsonl
 	cat $< | jq '{game_id,half,secs_left_reg,secs_left_half,home_score,away_score,home_team,away_team,play_desc}' -c > $@
 
-.PRECIOUS: season_%.pbp.jsonl
+#.PRECIOUS: season_%.pbp.jsonl
 season_%.pbp.jsonl: season_%.pbp.json
 	python torows.py $< > $@
 
@@ -36,3 +36,22 @@ season_%.reg_ends.jsonl: season_%.tweets.jsonl
 
 season_%.half.jsonl: season_%.tweets.jsonl
 	cat $< | jq -c '{game_id,half,secs_left_half,home_score,away_score}' | jq -sc 'sort_by(.half,.secs_left_half) | .[]' | sort -u -k 2,2 -t: > $@
+
+
+# processing for one game
+
+DATE=20250319
+TEAM=Spartans
+
+get_one_game: $(DATE)_$(TEAM).tweets.jsonl
+
+.INTERMEDIATE: $(DATE)_$(TEAM).pbp.json
+$(DATE)_$(TEAM).pbp.json:
+	python get_one_game.py --date $(DATE) --team $(TEAM)
+	-$(RM) $(DATE)_$(TEAM).info.json $(DATE)_$(TEAM).box.json
+
+%.pbp.jsonl: %.pbp.json
+	python torows.py $< > $@
+
+%.tweets.jsonl: %.pbp.jsonl
+	cat $< | jq '{game_id,half,secs_left_reg,secs_left_half,home_score,away_score,home_team,away_team,play_desc}' -c > $@
