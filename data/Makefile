@@ -36,3 +36,21 @@ season_%.reg_ends.jsonl: season_%.tweets.jsonl
 
 season_%.half.jsonl: season_%.tweets.jsonl
 	cat $< | jq -c '{game_id,half,secs_left_half,home_score,away_score}' | jq -sc 'sort_by(.half,.secs_left_half) | .[]' | sort -u -k 2,2 -t: > $@
+
+
+# processing for one game
+
+DATE=20250319
+TEAM=Spartans
+
+get_one_game: $(DATE)_$(TEAM).tweets.jsonl
+
+$(DATE)_$(TEAM).pbp.json:
+	python get_one_game.py --date $(DATE) --team $(TEAM)
+
+%.pbp.jsonl: %.pbp.json
+	python torows.py $< > $@
+
+%.tweets.jsonl: %.pbp.jsonl
+	cat $< | jq '{game_id,half,secs_left_reg,secs_left_half,home_score,away_score,home_team,away_team,play_desc}' -c > $@
+
