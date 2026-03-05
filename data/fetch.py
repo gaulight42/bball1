@@ -11,6 +11,15 @@
 import json
 import sys
 import cbbpy.mens_scraper as ms
+import cbbpy.utils.cbbpy_utils as _cbbpy_utils
+
+# Monkey-patch: ESPN removed 'isConferenceGame' from their API JSON in 2025-26.
+# cbbpy 2.1.2 expects it at gamepackage["gmStrp"]["isConferenceGame"].
+_orig_get_game_info_helper = _cbbpy_utils._get_game_info_helper
+def _patched_get_game_info_helper(gamepackage, game_id, game_type):
+    gamepackage.setdefault("gmStrp", {}).setdefault("isConferenceGame", False)
+    return _orig_get_game_info_helper(gamepackage, game_id, game_type)
+_cbbpy_utils._get_game_info_helper = _patched_get_game_info_helper
 
 
 year = int(sys.argv[1])
