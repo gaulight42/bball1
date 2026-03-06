@@ -16,10 +16,10 @@ all: top_plays_${YEAR}.txt retrieval season_${YEAR}.tweets.jsonl season_${YEAR}.
 retrieval: season_${YEAR}.pbp.json season_${YEAR}.box.json season_${YEAR}.info.json
 
 top_plays_%.txt: season_%.tweets.jsonl
-	jq .play_desc season_$*.tweets.jsonl | sort --parallel=10 | uniq -c | sort -nr | head -n 1000 > $@
+	jq .text season_$*.tweets.jsonl | sort --parallel=10 | uniq -c | sort -nr | head -n 1000 > $@
 
 season_%.tweets.jsonl: season_%.pbp.jsonl
-	cat $< | jq '{game_id,half,secs_left_reg,secs_left_half,home_score,away_score,home_team,away_team,play_desc}' -c > $@
+	cat $< | jq '{game_id,half,secs_left_reg,secs_left_half,home_score,away_score,home_team,away_team,text}' -c > $@
 
 #.PRECIOUS: season_%.pbp.jsonl
 season_%.pbp.jsonl: season_%.pbp.json
@@ -54,4 +54,4 @@ $(DATE)_$(TEAM).pbp.json:
 	python torows.py $< > $@
 
 %.tweets.jsonl: %.pbp.jsonl
-	cat $< | jq '{game_id,half,secs_left_reg,secs_left_half,home_score,away_score,home_team,away_team,play_desc}' -c > $@
+	cat $< | jq '{game_id,half,secs_left_reg,secs_left_half,home_score,away_score,home_team,away_team,text}' -c > $@
