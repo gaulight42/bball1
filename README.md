@@ -55,7 +55,7 @@ The first run trains the model (4-chain NUTS, ~25s on M-series Mac) and saves th
 posterior to:
 
 ```
-notebooks/2023/posterior_2023.npz
+notebooks/2026/posterior_2026.npz
 ```
 
 Subsequent runs load the cache and complete in ~2s. Delete the `.npz` to retrain.
@@ -81,10 +81,10 @@ bball1/                          # git root
 │   ├── roundOne2026.md          # archived round 1 predictions
 │   ├── roundTwo2026.md          # archived round 2 predictions
 │   └── ...
-├── notebooks/2023/
-│   ├── ncaaBball2023.ipynb
-│   └── posterior_2023.npz       # cached posterior (generated on first run, gitignored)
-└── src/2023/
+├── notebooks/2026/
+│   ├── ncaaBball2026.ipynb
+│   └── posterior_2026.npz       # cached posterior (generated on first run, gitignored)
+└── src/2026/
     ├── model.py                 # numpyro model definition
     ├── inference.py             # NUTS runner + save/load
     ├── predict.py               # predict_game(), evaluate_holdout()

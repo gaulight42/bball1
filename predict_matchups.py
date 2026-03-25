@@ -19,9 +19,9 @@ if len(sys.argv) < 2:
 
 # ── Paths ────────────────────────────────────────────────────────────────────
 PROJECT_ROOT = Path(__file__).parent
-SRC_DIR      = PROJECT_ROOT / "src" / "2023"
+SRC_DIR      = PROJECT_ROOT / "src" / "2026"
 DATA_TSV     = PROJECT_ROOT / "data" / "halftime_odds.tsv"
-POSTERIOR    = PROJECT_ROOT / "notebooks" / "2023" / "posterior_2023.npz"
+POSTERIOR    = PROJECT_ROOT / "notebooks" / "2026" / "posterior_2026.npz"
 CSV_IN       = (PROJECT_ROOT / sys.argv[1]).resolve()
 MD_OUT       = CSV_IN.with_name(CSV_IN.stem + "_analysis.md")
 

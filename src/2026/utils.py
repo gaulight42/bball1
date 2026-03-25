@@ -1,5 +1,5 @@
 """
-utils.py — Visualizations for the 2023 NCAA Basketball model.
+utils.py — Visualizations for the 2026 NCAA Basketball model.
 
 Functions:
     plot_team_quality()  — attack vs defense scatter with uncertainty
