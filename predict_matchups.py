@@ -55,7 +55,7 @@ else:
     samples = run_nuts(basketball_model, model_args)
     save_samples(samples, POSTERIOR)
 
-# ── 3.  Load Sweet 16 matchups ───────────────────────────────────────────────
+# ── 3.  Load matchups ────────────────────────────────────────────────────────
 matchups = pd.read_csv(
     CSV_IN,
     header=None,
@@ -108,8 +108,9 @@ for _, row in matchups.iterrows():
 # ── 5.  Build markdown ───────────────────────────────────────────────────────
 rows_ok = [r for r in results if r is not None]
 
+round_name = CSV_IN.stem.replace("_", " ").title()
 header = (
-    "# 2026 NCAA Tournament — Sweet 16 Model Predictions\n\n"
+    f"# 2026 NCAA Tournament — {round_name} Model Predictions\n\n"
     "Model spread convention: same as market — negative = favorite wins by that many, "
     "positive = model thinks underdog wins outright.\n\n"
 )
@@ -153,7 +154,7 @@ for r in rows_ok:
 rows_sorted = sorted(rows_ok, key=lambda r: abs(r["_diff"]), reverse=True)
 
 notable_lines = ["\n## Notable Disagreements\n"]
-threshold = 3.0   # at least 3 pts apart
+threshold = 2.0   # at least 2 pts apart
 
 for r in rows_sorted:
     ms    = r["model_spread"]
@@ -191,7 +192,7 @@ for r in rows_sorted:
 # Total disagreements
 for r in rows_ok:
     ou_diff = r["model_ou"] - r["mkt_ou"]
-    if abs(ou_diff) >= 5:
+    if abs(ou_diff) >= 3:
         direction = "over" if ou_diff > 0 else "under"
         fav, dog = r["favorite"], r["underdog"]
         notable_lines.append(

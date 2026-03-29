@@ -137,6 +137,37 @@ def build_game_table(df: pd.DataFrame) -> pd.DataFrame:
     return df[cols].reset_index(drop=True)
 
 
+def encode_conferences(
+    team_index: pd.Series,
+) -> tuple[pd.Series, np.ndarray]:
+    """
+    Build a conference index aligned with team_index.
+
+    Returns
+    -------
+    conf_index     : Series mapping conference name → integer id (alphabetical)
+    team_conf_id   : int array shape (n_teams,) — conference id for each team,
+                     indexed by team_id (i.e. team_conf_id[team_id] = conf_id)
+    """
+    # Build team → conference lookup
+    team_to_conf: dict[str, str] = {}
+    for conf, teams in CONFERENCE_TEAMS.items():
+        for t in teams:
+            team_to_conf[t] = conf
+
+    conf_names = sorted(set(team_to_conf.values()))
+    conf_index = pd.Series(
+        {name: i for i, name in enumerate(conf_names)}, name="conf_id"
+    )
+
+    team_conf_id = np.array([
+        conf_index[team_to_conf[team_name]]
+        for team_name in team_index.index
+    ], dtype=np.int32)
+
+    return conf_index, team_conf_id
+
+
 def encode_teams(games: pd.DataFrame) -> tuple[pd.DataFrame, pd.Series]:
     """
     Assign integer IDs to teams (alphabetically sorted).
@@ -191,15 +222,17 @@ def prepare_data(
     seed: int = 42,
 ) -> dict:
     """
-    Full pipeline: load TSV → filter → encode teams → split.
+    Full pipeline: load TSV → filter → encode teams → encode conferences → split.
 
     Returns a dict with keys:
-        train, holdout, team_index, n_teams, all_games
+        train, holdout, team_index, n_teams, all_games,
+        conf_index, team_conf_id, n_confs
     """
     raw = load_raw_tsv(tsv_path)
     filtered = filter_to_conferences(raw, conferences)
     games = build_game_table(filtered)
     games, team_index = encode_teams(games)
+    conf_index, team_conf_id = encode_conferences(team_index)
     train, holdout = train_holdout_split(games, holdout_n=holdout_n, seed=seed)
 
     return {
@@ -208,4 +241,7 @@ def prepare_data(
         "team_index": team_index,
         "n_teams": len(team_index),
         "all_games": games,
+        "conf_index": conf_index,
+        "team_conf_id": team_conf_id,
+        "n_confs": len(conf_index),
     }

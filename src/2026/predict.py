@@ -14,13 +14,16 @@ import numpyro
 from numpyro.infer import Predictive
 
 
-def _make_model_args(home_id, away_id, is_neutral, n_teams):
-    return dict(
+def _make_model_args(home_id, away_id, is_neutral, n_teams, extra: dict | None = None):
+    args = dict(
         home_id=np.array([home_id]),
         away_id=np.array([away_id]),
         is_neutral=np.array([is_neutral]),
         n_teams=n_teams,
     )
+    if extra:
+        args.update(extra)
+    return args
 
 
 def predict_game(
@@ -31,6 +34,7 @@ def predict_game(
     team_b: str,
     neutral_court: bool = True,
     rng_seed: int = 1,
+    extra_model_args: dict | None = None,
 ) -> dict:
     """
     Draw posterior predictive scores for a single matchup.
@@ -67,7 +71,7 @@ def predict_game(
     n_teams = len(team_index)
     is_neutral = 1 if neutral_court else 0
 
-    model_args = _make_model_args(id_a, id_b, is_neutral, n_teams)
+    model_args = _make_model_args(id_a, id_b, is_neutral, n_teams, extra=extra_model_args)
 
     predictive = Predictive(model, posterior_samples=posterior_samples)
     rng_key = jax.random.PRNGKey(rng_seed)
@@ -107,6 +111,7 @@ def evaluate_holdout(
     holdout: pd.DataFrame,
     team_index: pd.Series,
     rng_seed: int = 42,
+    extra_model_args: dict | None = None,
 ) -> pd.DataFrame:
     """
     Evaluate posterior predictive calibration on held-out games.
@@ -137,6 +142,7 @@ def evaluate_holdout(
             team_b,
             neutral_court=(is_neutral == 1),
             rng_seed=rng_seed,
+            extra_model_args=extra_model_args,
         )
 
         score_a = pred["score_a"]
