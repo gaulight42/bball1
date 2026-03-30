@@ -14,8 +14,16 @@ Model spread convention: same as market — negative = favorite wins by that man
 ## Notable Disagreements
 
 - **Illinois Fighting Illini -6.5 vs Iowa Hawkeyes:** Model has Illinois Fighting Illini by 9.0; P(cover) = 57.9% — model thinks spread is too small
+  - Illinois won by 12, model was correct :-)
 - **Arizona Wildcats -6.5 vs Purdue Boilermakers:** Model has Arizona Wildcats by 9.0; P(cover) = 57.6% — model thinks spread is too small
+  - Arizona won by 15, model was correct :-)
 - **Illinois Fighting Illini vs Iowa Hawkeyes (O/U 137.5):** Model projects 141 total; P(over) = 58.8% — model leans over
+  - total was 130, model was incorrect but :-(
 - **Arizona Wildcats vs Purdue Boilermakers (O/U 153.5):** Model projects 149 total; P(over) = 38.1% — model leans under
+  - total was 143, model was correct  :-)
 - **Michigan Wolverines vs Tennessee Volunteers (O/U 146.5):** Model projects 142 total; P(over) = 39.0% — model leans under
+  - total was 157, model was wrong :-(
 - **Duke Blue Devils vs UConn Huskies (O/U 133.5):** Model projects 138 total; P(over) = 62.5% — model leans over
+  - total was 145, model ws correct :-)
+
+4 correct, 2 wrong

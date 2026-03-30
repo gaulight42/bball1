@@ -18,10 +18,20 @@ Model spread convention: same as market — negative = favorite wins by that man
 ## Notable Disagreements
 
 - **Purdue Boilermakers -7.5 vs Texas Longhorns:** Model has Purdue Boilermakers by only 3.0; P(cover) = 37.8% — model thinks spread is too large
+  - Model was correct that Purdue did NOT cover :-)
 - **Nebraska Cornhuskers -4.5 vs Iowa Hawkeyes:** Model has Nebraska Cornhuskers by 9.0; P(cover) = 62.0% — model thinks spread is too small
+  - Model was wrong since Nebraska won :-(
 - **Duke Blue Devils -6.5 vs St. John's Red Storm:** Model has Duke Blue Devils by 10.0; P(cover) = 59.3% — model thinks spread is too small
+  - Model was wrong Duke did NOT cover :-(
 - **Michigan Wolverines -9.5 vs Alabama Crimson Tide:** Model has Michigan Wolverines by only 6.0; P(cover) = 41.2% — model thinks spread is too large
+  - Model was wrong Michigan did cover :-(
 - **Iowa State Cyclones -3.5 vs Tennessee Volunteers:** Model has Iowa State Cyclones by 7.0; P(cover) = 58.3% — model thinks spread is too small
+  - Model was wrong Iowa State lost :-(
 - **Nebraska Cornhuskers vs Iowa Hawkeyes (O/U 144.5):** Model projects 137 total; P(over) = 32.3% — model leans under
+  - Model was wrong, the total was 148 so the over, :-(
 - **Houston Cougars vs Illinois Fighting Illini (O/U 137.5):** Model projects 143 total; P(over) = 65.9% — model leans over
+  - Model was wrong, the total was 120, the under, :-( 
 - **Michigan Wolverines vs Alabama Crimson Tide (O/U 174.5):** Model projects 162 total; P(over) = 23.9% — model leans under
+  - 167 total, model was correct, :-)
+
+2 correct, 6 incorrect   
